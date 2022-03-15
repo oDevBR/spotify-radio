@@ -14,7 +14,7 @@ async function routes(request, response) {
 
   if (method === "GET" && url === "/") {
     response.writeHead(302, {
-      Location: location.home,
+      'Location': location.home,
     });
 
     return response.end()
