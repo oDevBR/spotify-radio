@@ -1,3 +1,5 @@
+![Codecov](https://img.shields.io/codecov/c/github/whisoer/spotify-radio?style=for-the-badge&token=98e3eaf2-9956-46c7-af88-a055a1e9c999)
+
 # Spotify Radio - Semana JS Expert 6.0
 
 Seja bem vindo(a) à sexta Semana Javascript Expert. Este é o código inicial para iniciar nossa jornada.
