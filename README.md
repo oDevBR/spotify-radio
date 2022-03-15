@@ -1,4 +1,4 @@
-![Codecov](https://img.shields.io/codecov/c/github/whisoer/spotify-radio?style=for-the-badge&token=98e3eaf2-9956-46c7-af88-a055a1e9c999)
+![Codecov](https://img.shields.io/codecov/c/github/whisoer/spotify-radio?style=for-the-badge&token=KEF8X9Z8DU)
 
 # Spotify Radio - Semana JS Expert 6.0
 
