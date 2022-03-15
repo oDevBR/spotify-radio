@@ -11,9 +11,9 @@ const defaultConfig = {
     },
   },
   maxWorkers: "50%",
-  watchPathIgnorePatterns: ["node_modules"],
-  transformIgnorePatterns: ["node_modules"],
-  coveragePathIgnorePatterns: ["/node_modules/", "/tests/"]
+  watchPathIgnorePatterns: ["node_modules", "tests"],
+  transformIgnorePatterns: ["node_modules", "tests"],
+  coveragePathIgnorePatterns: ["node_modules", "tests"],
 };
 
 export default {
