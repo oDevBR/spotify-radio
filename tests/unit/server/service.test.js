@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import fs from "fs";
+import fsPromises from "fs/promises";
 import { join } from "path";
 import config from "../../../server/config";
-import fsPromises from "fs/promises";
 import { Service } from "../../../server/service";
 import TestUtil from "../_util/testUtil.js";
 
