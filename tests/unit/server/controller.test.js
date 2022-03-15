@@ -13,7 +13,7 @@ describe('#Controller - test for the intermediary of the application with busine
   })
 
   
-  test('getFileStream - should return a filestream', async () => {
+  test('getFileStream - should return a file stream', async () => {
       const controller = new Controller()
       const mockFileStream = TestUtil.generateReadableStream(['data'])
       
