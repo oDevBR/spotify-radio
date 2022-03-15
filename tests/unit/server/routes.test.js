@@ -140,7 +140,7 @@ describe("#Routes - test site for api response", () => {
 
       jest
         .spyOn(Controller.prototype, Controller.prototype.getFileStream.name)
-        .mockRejectedValue(new Error("Error: ENOENT: no such file or directy"));
+        .mockRejectedValue(new Error("Error: ENOENT: no such file or directly"));
 
       await handler(...params.values());
 
