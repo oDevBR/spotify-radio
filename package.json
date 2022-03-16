@@ -9,7 +9,7 @@
     "test": "LOG_DISABLE=true NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --no-cache",
     "test:watch": "LOG_DISABLE=true NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --no-cache --watchAll",
     "test:coverage": "LOG_DISABLE=true NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --no-cache --coverage tests/unit",
-    "start:docker": "docker-compose up start"
+    "start:docker": "docker-compose up --build start"
   },
   "engines": {
     "node": "17"
