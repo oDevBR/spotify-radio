@@ -10,7 +10,7 @@ const {
   constants: { CONTENT_TYPE },
 } = config;
 
-describe("#Routes - test site for api response", () => {
+describe("#Routes - test suite for api response", () => {
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();

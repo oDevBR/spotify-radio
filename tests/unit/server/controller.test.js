@@ -3,7 +3,7 @@ import { Controller } from "../../../server/controller";
 import { Service } from "../../../server/service";
 import TestUtil from "../_util/testUtil.js";
 
-describe("#Controller - test for the intermediary of the application with business rules", () => {
+describe("#Controller - test suite for controller calls", () => {
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();

@@ -6,7 +6,7 @@ import config from "../../../server/config";
 import { Service } from "../../../server/service";
 import TestUtil from "../_util/testUtil.js";
 
-describe("#Service - test for all processing and business rules", () => {
+describe("#Service - test suite for core processing", () => {
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
