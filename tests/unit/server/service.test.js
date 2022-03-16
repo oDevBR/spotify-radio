@@ -1,10 +1,14 @@
 import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import fs from "fs";
 import fsPromises from "fs/promises";
-import { join } from "path";
-import config from "../../../server/config";
-import { Service } from "../../../server/service";
+
+import config from "../../../server/config.js";
+import { Service } from "../../../server/service.js";
 import TestUtil from "../_util/testUtil.js";
+
+const {
+  dir: { publicDirectory },
+} = config;
 
 describe("#Service - test suite for core processing", () => {
   beforeEach(() => {
@@ -12,52 +16,58 @@ describe("#Service - test suite for core processing", () => {
     jest.clearAllMocks();
   });
 
-  test("createFileStream - should create a file stream", async () => {
+  test("#createFileStream", () => {
+    const currentReadable = TestUtil.generateReadableStream(["abc"]);
+
+    jest.spyOn(fs, fs.createReadStream.name).mockReturnValue(currentReadable);
+
     const service = new Service();
-    const mockedFile = "file.ext";
-    const mockFileStream = TestUtil.generateReadableStream(["data"]);
+    const myFile = "file.mp3";
+    const result = service.createFileStream(myFile);
 
-    jest.spyOn(fs, fs.createReadStream.name).mockResolvedValue(mockFileStream);
-
-    const expectedFileStream = await service.createFileStream(mockedFile);
-
-    expect(expectedFileStream).toStrictEqual(mockFileStream);
+    expect(result).toStrictEqual(currentReadable);
+    expect(fs.createReadStream).toHaveBeenCalledWith(myFile);
   });
 
-  test("getFileInfo - should return file name and type", async () => {
+  test("#getFileInfo", async () => {
+    jest.spyOn(fsPromises, fsPromises.access.name).mockResolvedValue();
+
+    const currentSong = "mySong.mp3";
     const service = new Service();
-    const mockedFile = "file.ext";
-    const mockedFileType = ".ext";
-    const mockedFullPath = join(config.dir.publicDirectory, mockedFile);
+    const result = await service.getFileInfo(currentSong);
+    const expectedResult = {
+      type: ".mp3",
+      name: `${publicDirectory}/${currentSong}`,
+    };
 
-    jest.spyOn(fsPromises, fsPromises.access.name).mockReturnValue();
-
-    const expectedFile = await service.getFileInfo(mockedFile);
-
-    expect(expectedFile.type).toEqual(mockedFileType);
-    expect(expectedFile.name).toEqual(mockedFullPath);
+    expect(result).toStrictEqual(expectedResult);
   });
 
-  test("getFileStream - should return file stream and type", async () => {
+  test("#getFileStream", async () => {
+    const currentReadable = TestUtil.generateReadableStream(["abc"]);
+    const currentSong = `mySong.mp3`;
+    const currentSongFullPath = `${publicDirectory}/${currentSong}`;
+
+    const fileInfo = {
+      type: ".mp3",
+      name: currentSongFullPath,
+    };
+
     const service = new Service();
-    const mockedFile = "file.ext";
-    const mockedFileType = ".ext";
-    const mockedFullPath = join(config.dir.publicDirectory, mockedFile);
-    const mockFileStream = TestUtil.generateReadableStream(["data"]);
+    jest.spyOn(service, service.getFileInfo.name).mockResolvedValue(fileInfo);
 
     jest
-      .spyOn(Service.prototype, Service.prototype.createFileStream.name)
-      .mockResolvedValue(mockFileStream);
-    jest
-      .spyOn(Service.prototype, Service.prototype.getFileInfo.name)
-      .mockResolvedValue({
-        name: mockedFullPath,
-        type: mockedFileType,
-      });
+      .spyOn(service, service.createFileStream.name)
+      .mockReturnValue(currentReadable);
 
-    const expectedFile = await service.getFileStream(mockedFile);
+    const result = await service.getFileStream(currentSong);
+    const expectedResult = {
+      type: fileInfo.type,
+      stream: currentReadable,
+    };
+    expect(result).toStrictEqual(expectedResult);
+    expect(service.createFileStream).toHaveBeenCalledWith(fileInfo.name);
 
-    expect(expectedFile.stream).resolves.toEqual(mockFileStream);
-    expect(expectedFile.type).toEqual(mockedFileType);
+    expect(service.getFileInfo).toHaveBeenCalledWith(currentSong);
   });
 });
