@@ -59,7 +59,8 @@ body {
 .container__section {
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(120deg, #339933, #191414);
+  height: 100%;
+  background: linear-gradient(190deg, rgba(10,10,91,1) 0%, rgba(4,4,34,1) 100%);
   padding: 1.3rem 0 7rem 15rem;
 }
 
@@ -138,6 +139,8 @@ body {
   flex-direction: column;
   padding: 1.3rem 2rem 0 2rem;
   color: #e4e4e4;
+  background: #00000050;
+  height: 100vh;
 }
 
 .container__section__cards__actions-btn {
