@@ -23,8 +23,6 @@ export class Service {
     this.currentBitRate = 0;
     this.throttleTransform = {};
     this.currentReadable = {};
-
-    this.startStreaming()
   }
 
   createClientStream() {
@@ -94,6 +92,11 @@ export class Service {
       throttleTransform,
       this.broadCast()
     )
+  }
+
+  async stopStreaming() {
+    logger.info(`stop ${this.currentSong}`);
+    this.throttleTransform?.end?.()
   }
 
   createFileStream(filename) {
