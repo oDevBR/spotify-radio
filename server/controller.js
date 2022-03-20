@@ -9,9 +9,8 @@ export class Controller {
   async getFileStream(filename) {
     return this.service.getFileStream(filename);
   }
-
   async handleCommand({ command }) {
-    logger.info(`command receive: ${command}`);
+    logger.info(`command received: ${command}`);
     const result = {
       result: "ok",
     };
@@ -21,11 +20,16 @@ export class Controller {
       this.service.startStreaming();
       return result;
     }
+
     if (cmd.includes("stop")) {
       this.service.stopStreaming();
       return result;
     }
-    return this.service.startStreaming();
+    const chosenFx = await this.service.readFxByName(cmd);
+    logger.info(`added fx to service: ${chosenFx}`);
+    this.service.appendFxStream(chosenFx);
+
+    return result;
   }
 
   createClientStream() {
