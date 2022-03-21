@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, jest, test } from "@jest/globals";
-
+import { beforeEach, describe, expect, jest, test } from "@jest/globals"
+;
 import config from "../../../server/config.js";
 import { Controller } from "../../../server/controller.js";
 import { handler } from "../../../server/routes.js";

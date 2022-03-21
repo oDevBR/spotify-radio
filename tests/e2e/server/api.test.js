@@ -4,7 +4,7 @@ import { Transform } from "stream";
 import superTest from "supertest";
 import { setTimeout } from "timers/promises";
 
-import { describe, expect, jest, test } from "@jest/globals";
+import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 
 import Server from "../../../server/server.js";
 import config from "./../../../server/config.js";
@@ -20,11 +20,20 @@ describe("API E2E Suite Test", () => {
     result: "ok",
   });
   const possibleCommands = {
+    applause: "applause",
+    audience: "audience",
+    boo: "boo",
+    fart: "fart",
+    laugh: "laugh",
     start: "start",
     stop: "stop",
   };
 
   let testServer = superTest(Server());
+  beforeEach(() => {
+    jest.restoreAllMocks();
+    jest.clearAllMocks();
+  });
 
   function pipeAndReadStreamData(stream, onChunk) {
     const transform = new Transform({
@@ -107,13 +116,13 @@ describe("API E2E Suite Test", () => {
 
   describe("client workflow", () => {
     async function getTestServer() {
-      const getSupertTest = (port) => superTest(`http://localhost:${port}`);
+      const getSuperTest = (port) => superTest(`http://localhost:${port}`);
       const port = await getAvailablePort();
       return new Promise((resolve, reject) => {
         const server = Server()
           .listen(port)
           .once("listening", () => {
-            const testServer = getSupertTest(port);
+            const testServer = getSuperTest(port);
             const response = {
               testServer,
               kill() {
@@ -158,6 +167,48 @@ describe("API E2E Suite Test", () => {
       const [[buffer]] = onChunk.mock.calls;
       expect(buffer).toBeInstanceOf(Buffer);
       expect(buffer.length).toBeGreaterThan(1000);
+
+      server.kill();
+    });
+    test("sending all commands at once together should not break the API", async () => {
+      const server = await getTestServer();
+      const sender = commandSender(server.testServer);
+      await sender.send(possibleCommands.start);
+
+      const onChunk = jest.fn();
+      pipeAndReadStreamData(server.testServer.get(`/stream`), onChunk);
+      const commands = Reflect.ownKeys(possibleCommands).filter(
+        (cmd) => cmd !== possibleCommands.start || cmd !== possibleCommands.stop
+      );
+
+      for (const command of commands) {
+        await sender.send(command);
+        await setTimeout(RETENTION_DATA_PERIOD);
+      }
+
+      await sender.send(possibleCommands.stop);
+
+      const [[buffer]] = onChunk.mock.calls;
+
+      const atLeastCallCount = 5;
+      expect(onChunk.mock.calls.length).toBeGreaterThan(atLeastCallCount);
+      expect(buffer).toBeInstanceOf(Buffer);
+      expect(buffer.length).toBeGreaterThan(1000);
+
+      server.kill();
+    });
+
+    test("it shouldnt break sending commands to the API if theres no audio playing", async () => {
+      const server = await getTestServer();
+      const sender = commandSender(server.testServer);
+
+      await setTimeout(RETENTION_DATA_PERIOD);
+
+      await sender.send(possibleCommands.stop);
+      await sender.send(possibleCommands.applause);
+      await sender.send(possibleCommands.stop);
+
+      await setTimeout(RETENTION_DATA_PERIOD);
 
       server.kill();
     });
