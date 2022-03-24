@@ -1,9 +1,7 @@
 [![codecov](https://codecov.io/gh/whisoer/spotify-radio/branch/main/graph/badge.svg?token=KEF8X9Z8DU)](https://codecov.io/gh/whisoer/spotify-radio)
 # Spotify Radio - Semana JS Expert 6.0
 
-Seja bem vindo(a) à sexta Semana Javascript Expert. Este é o código inicial para iniciar nossa jornada.
-
-Marque esse projeto com uma estrela 🌟
+Projeto realizado na Semana Javascript Expert ministrado por [Erick Wendel](https://www.linkedin.com/in/erickwendel/).
 
 ## Preview
 
@@ -28,7 +26,7 @@ Marque esse projeto com uma estrela 🌟
     - Controller
         - [X] Deve atingir 100% de cobertura de código em testes
         - [X] Deve poder iniciar ou parar uma transmissão 
-        - [ d] Deve enviar comandos para adicionar audio efeitos à uma transmissão
+        - [ ] Deve enviar comandos para adicionar audio efeitos à uma transmissão
 
 ## Tarefas por aula
 
