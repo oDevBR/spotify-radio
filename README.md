@@ -26,7 +26,7 @@ Projeto realizado na Semana Javascript Expert ministrado por [Erick Wendel](http
     - Controller
         - [X] Deve atingir 100% de cobertura de código em testes
         - [X] Deve poder iniciar ou parar uma transmissão 
-        - [ ] Deve enviar comandos para adicionar audio efeitos à uma transmissão
+        - [X] Deve enviar comandos para adicionar audio efeitos à uma transmissão
 
 ## Tarefas por aula
 
